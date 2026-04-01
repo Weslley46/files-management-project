@@ -1,34 +1,32 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs';
 
-
- function createDirectory(dirPath) {
-       return new Promise((resolve, reject)=> {
+function createDirectory(dirPath) {
+    return new Promise((resolve, reject) => {
         fs.mkdir(dirPath, { recursive: true }, (err) => {
             if (err) {
-                reject(err)
+                reject(err);
             } else {
-                resolve(`Directory created at ${dirPath}`)
+                resolve(`Directory created at ${dirPath}`);
             }
         });
-   }); 
- }
+    });
+}
 
 function createFile(filePath, content = "") {
-        return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         fs.writeFile(filePath, content, "utf8", (err) => {
             if (err) {
-                reject(err)
+                reject(err);
             } else {
-                resolve(`File created at ${filePath}`)
+                resolve(`File created at ${filePath}`);
             }
         });
     });
 }
 
 function listFiles(dirPath) {
-    return new Promise ((resaolve, reject)=> {
-        fs.readdir (dirPath, (err, files ) => {
+    return new Promise((resolve, reject) => {
+        fs.readdir(dirPath, (err, files) => {
             if (err) {
                 reject(err);
             } else {
@@ -38,43 +36,49 @@ function listFiles(dirPath) {
     });
 }
 
-function readFiles(dirPath) {
-    return new Promise ((resolve, reject) => {
-        fs.readFile(dirPath, "uft8", (err, data) =>{
+// ✅ Corrigido: nome da função + typo "uft8" → "utf8"
+function readFile(filePath) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, "utf8", (err, data) => {
             if (err) {
                 reject(err);
             } else {
                 resolve(data);
-            }  
-          });
-    });
-}
-
-
-function writeFile(filePath, content){
-    return new Promise (( resolve, reject ) => {
-         fs.writeFile(filePath, content, 'utf8', (err) => {
-         if (err) {
-        reject(err);
-         } else {
-        resolve('File written successfully');
-         }    
-       });
-    });
-}
-
-
-function deleteFile(filePath) {
-    return new Promise ((resolve,reject)=> {
-        fs.unlink(filePath, (err)=> {
-            if (err) {
-                reject(err);
-            } else {
-                resolve( 'File deleted successfully');
             }
         });
     });
 }
 
+function writeFile(filePath, content) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filePath, content, 'utf8', (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve('File written successfully');
+            }
+        });
+    });
+}
 
-module.exports = { createDirectory, createFile, readFiles, writeFile, deleteFile };
+function deleteFile(filePath) {
+    return new Promise((resolve, reject) => {
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve('File deleted successfully');
+            }
+        });
+    });
+}
+
+// Exportação para ES Modules
+export default {
+    createDirectory,
+    createFile,
+    listFiles,
+    readFile,
+    writeFile,
+    deleteFile
+};
